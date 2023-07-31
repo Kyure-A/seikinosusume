@@ -8,8 +8,13 @@
 
 ## Todo
 
+- [ ] 文字のでかさの調整
+
 - [ ] icon の描画ができるようにする
 
 - [ ] wasm で利用可能にする
 
 - [ ] FrontEnd をつくる
+
+## License
+フォントには [M+FONTS](https://mplusfonts.github.io) を使用しています。

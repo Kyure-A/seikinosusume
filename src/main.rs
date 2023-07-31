@@ -7,12 +7,22 @@ fn make_seikin(text: &str, mut image: DynamicImage) -> DynamicImage {
     let font = Vec::from(include_bytes!("../static/MPLUS1-Bold.ttf") as &[u8]);
     let font = Font::try_from_vec(font).unwrap();
     
-    let scale = Scale {
+    let mut scale = Scale {
         x: 320.0,
         y: 320.0,
     };
 
-    draw_text_mut(&mut image, Rgba([0u8, 0u8, 0u8, 0u8]), 750, 800, scale, &font, text);
+    let char_size: f32 = 55.0;
+    let standard_text_length = 6; // "SEIKIN"
+    let mut optimizer: f32 = 0.0;
+    
+    if text.len() > standard_text_length {
+	optimizer = char_size * (text.chars().count() - standard_text_length) as f32;
+	scale.x -= optimizer;
+	scale.y -= optimizer;
+    }
+
+    draw_text_mut(&mut image, Rgba([0u8, 0u8, 0u8, 0u8]), 750 + optimizer as u32, 800 + optimizer as u32, scale, &font, text);
 
     return image;
 }
@@ -22,12 +32,22 @@ fn make_seikinga(text: &str, mut image: DynamicImage) -> DynamicImage {
     let font = Vec::from(include_bytes!("../static/MPLUS1-Bold.ttf") as &[u8]);
     let font = Font::try_from_vec(font).unwrap();
     
-    let scale = Scale {
+    let mut scale = Scale {
         x: 150.0,
         y: 150.0,
     };
 
-    draw_text_mut(&mut image, Rgba([0u8, 0u8, 0u8, 0u8]), 950, 750, scale, &font, text);
+    let char_size: f32 = 25.0;
+    let standard_text_length = 5; // "セイキンが"
+    let mut optimizer: f32 = 0.0;
+    
+    if text.len() > standard_text_length {
+	optimizer = char_size * (text.chars().count() - standard_text_length) as f32;
+	scale.x -= optimizer;
+	scale.y -= optimizer;
+    }
+
+    draw_text_mut(&mut image, Rgba([0u8, 0u8, 0u8, 0u8]), 950 + optimizer as u32, 750 + optimizer as u32, scale, &font, text);
 
     return image;
 }
@@ -40,7 +60,7 @@ fn main() {
     let mut image = image::open("static/base.png").unwrap();
     
     let seikinga = "セイキンが";
-    let seikin = "SEIKIN";
+    let seikin = "Kyure_A";
 
     image = make_seikin(seikin, image.clone());
     image = make_seikinga(seikinga, image.clone());
