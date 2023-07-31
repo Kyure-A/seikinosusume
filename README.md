@@ -8,6 +8,8 @@
 
 ## Todo
 
-[ ] wasm で利用可能にする
+- [ ] icon の描画ができるようにする
 
-[ ] FrontEnd をつくる
+- [ ] wasm で利用可能にする
+
+- [ ] FrontEnd をつくる
