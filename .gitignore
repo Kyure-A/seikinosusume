@@ -1,2 +1,8 @@
-/target
+src/wasm/target
 /static/identicon.png
+.idea
+.DS_Store
+.vscode/*
+!.vscode/launch.json
+node_modules
+.eslintcache
