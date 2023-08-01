@@ -2,6 +2,7 @@ use image::{Rgba, DynamicImage, ImageBuffer, imageops::{resize}};
 use imageproc::drawing::draw_text_mut;
 use rusttype::{Font, Scale};
 use og_image_writer::{style::BorderRadius};
+use wasm_bindgen::prelude::*;
 mod icon_round;
 
 fn make_seikinga(text: &str, mut image: DynamicImage) -> DynamicImage {
@@ -79,7 +80,8 @@ fn draw_icon(mut image: DynamicImage, mut icon: DynamicImage) -> DynamicImage {
     return image;
 }
 
-fn main() {
+#[wasm_bindgen]
+pub fn main() {
     let mut image = image::open("static/base.png").unwrap();
     let icon = image::open("static/identicon.png").unwrap();
     let seikinga = "キュレェが";
