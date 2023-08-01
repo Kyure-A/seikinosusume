@@ -1,38 +1,22 @@
-# create-svelte
+# seikinosusume
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## なにこれ
+セイキンおすすめシールっぽい画像を生成します
 
-## Creating a project
+## sample
+![sample](./src/wasm/result.png)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Todo
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- [x] 文字のでかさの調整
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+- [x] icon の描画ができるようにする
 
-## Developing
+- [ ] wasm で利用可能にする
+  - [x] wasm-bindgen で build 可能にする
+  - [ ] うまいこと画像を受け取れるようにする
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- [ ] FrontEnd をつくる
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## License
+フォントには [M+FONTS](https://mplusfonts.github.io) を使用しています。
