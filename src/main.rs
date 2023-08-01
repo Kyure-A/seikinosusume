@@ -1,4 +1,4 @@
-use image::{Rgba, DynamicImage, ImageBuffer};
+use image::{Rgba, DynamicImage, ImageBuffer, imageops::resize};
 use imageproc::drawing::draw_text_mut;
 use rusttype::{Font, Scale};
 use og_image_writer::{style::BorderRadius};
@@ -58,7 +58,10 @@ fn round_icon(icon: DynamicImage) -> DynamicImage{
     //! icon を描画する
     let mut rounded_icon: ImageBuffer<Rgba<u8>, Vec<u8>> = icon.to_rgba8();
     icon_round::round(&mut rounded_icon, &mut BorderRadius(200, 200, 200, 200));
-    let new_icon: DynamicImage = DynamicImage::ImageRgba8(rounded_icon);
+    let resized_icon: ImageBuffer<Rgba<u8>, Vec<u8>> = resize(&rounded_icon, 750, 750, image::imageops::FilterType::CatmullRom);
+
+    let new_icon: DynamicImage = DynamicImage::ImageRgba8(resized_icon);
+
     return new_icon;
 }
 
