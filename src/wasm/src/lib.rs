@@ -81,14 +81,12 @@ fn draw_icon(mut image: DynamicImage, mut icon: DynamicImage) -> DynamicImage {
 }
 
 #[wasm_bindgen]
-pub fn main() {
+pub fn generate(seikinga: String, seikin: String, path: String) {
     let mut image = image::open("static/base.png").unwrap();
-    let icon = image::open("static/identicon.png").unwrap();
-    let seikinga = "キュレェが";
-    let seikin = "SEIKIn";
+    let icon = image::open(path).unwrap();
     
-    image = make_seikin(seikin, image.clone());
-    image = make_seikinga(seikinga, image.clone());
+    image = make_seikin(&seikin, image.clone());
+    image = make_seikinga(&seikinga, image.clone());
     image = draw_icon(image.clone(), icon.clone());
     
     image.save("result.png").unwrap();
