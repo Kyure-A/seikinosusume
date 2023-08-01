@@ -1,4 +1,4 @@
-use image::{Rgba, DynamicImage, ImageBuffer, imageops::resize};
+use image::{Rgba, DynamicImage, ImageBuffer, imageops::{resize, overlay}};
 use imageproc::drawing::draw_text_mut;
 use rusttype::{Font, Scale};
 use og_image_writer::{style::BorderRadius};
@@ -54,8 +54,8 @@ fn make_seikinga(text: &str, mut image: DynamicImage) -> DynamicImage {
     return image;
 }
 
-fn round_icon(icon: DynamicImage) -> DynamicImage{
-    //! icon を描画する
+fn round_icon(icon: DynamicImage) -> DynamicImage {
+    //! icon を resize, 角丸 にする
     let mut rounded_icon: ImageBuffer<Rgba<u8>, Vec<u8>> = icon.to_rgba8();
     icon_round::round(&mut rounded_icon, &mut BorderRadius(200, 200, 200, 200));
     let resized_icon: ImageBuffer<Rgba<u8>, Vec<u8>> = resize(&rounded_icon, 750, 750, image::imageops::FilterType::CatmullRom);
@@ -65,17 +65,23 @@ fn round_icon(icon: DynamicImage) -> DynamicImage{
     return new_icon;
 }
 
+fn draw_icon(mut image: DynamicImage, mut icon: DynamicImage) -> DynamicImage {
+    //! icon を image にはめこむ
+    icon = round_icon(icon);
+    image::imageops::overlay(&mut image, &icon, 167, 200);
+    return image;
+}
+
 fn main() {
     let mut image = image::open("static/base.png").unwrap();
+    let mut icon = image::open("static/identicon.png").unwrap();
+    let seikinga = "キュレェが";
+    let seikin = "Kyure_A";
     
-    let seikinga = "セイキンが";
-    let seikin = "SEIKIN";
-
     image = make_seikin(seikin, image.clone());
     image = make_seikinga(seikinga, image.clone());
-    image.save("test.png").unwrap();
-
-    let mut icon = image::open("static/identicon.png").unwrap();
-	
-    round_icon(icon).save("test2.png").unwrap();
+    image = draw_icon(image.clone(), icon.clone());
+    
+    image.save("test.png").unwrap();	
+    icon.save("test2.png").unwrap();
 }
