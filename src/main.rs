@@ -1,6 +1,8 @@
-use image::{Rgba, DynamicImage};
+use image::{Rgba, DynamicImage, ImageBuffer};
 use imageproc::drawing::draw_text_mut;
 use rusttype::{Font, Scale};
+use og_image_writer::{style::BorderRadius};
+mod icon_round;
 
 fn make_seikin(text: &str, mut image: DynamicImage) -> DynamicImage {
     //! "SEIKIN" の文字の位置に 文字列 text を描画する
@@ -52,8 +54,12 @@ fn make_seikinga(text: &str, mut image: DynamicImage) -> DynamicImage {
     return image;
 }
 
-fn _draw_icon(icon: DynamicImage) {
+fn round_icon(icon: DynamicImage) -> DynamicImage{
     //! icon を描画する
+    let mut rounded_icon: ImageBuffer<Rgba<u8>, Vec<u8>> = icon.to_rgba8();
+    icon_round::round(&mut rounded_icon, &mut BorderRadius(200, 200, 200, 200));
+    let new_icon: DynamicImage = DynamicImage::ImageRgba8(rounded_icon);
+    return new_icon;
 }
 
 fn main() {
@@ -65,4 +71,8 @@ fn main() {
     image = make_seikin(seikin, image.clone());
     image = make_seikinga(seikinga, image.clone());
     image.save("test.png").unwrap();
+
+    let mut icon = image::open("static/identicon.png").unwrap();
+	
+    round_icon(icon).save("test2.png").unwrap();
 }
