@@ -13,3 +13,7 @@ imageproc = "0.22.0"
 rusttype = "0.9.2"
 og_image_writer = "0.11.0"
 wasm-bindgen = "0.2.87"
+
+[[bin]]
+name = "img-gen"
+path = "src/seikinosusume_generator.rs"

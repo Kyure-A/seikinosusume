@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { seikinosusume_generator } from "../wasm/pkg/seikinosusume";
+  import { onMount } from 'svelte';
+  import { seikinosusume_generator } from "$lib/wasm/pkg/";
   let seikinga: string = "セイキンが";
   let seikin: string = "SEIKIN";
   let files;
@@ -7,9 +8,9 @@
   let canvasWidth = 0;
   let canvasHeight = 0;
 
-  function generate (seikinga: string, seikin: string) {
+  onMount(() => {
     const imageInput = document.getElementById('icon');
-    imageInput.addEventListener('change', (event) => {
+    imageInput.addEventListener('input', (event) => {
       const image = new Image();
       image.onload = () => {
         const { width, height } = image;
@@ -21,7 +22,7 @@
         canvas.height = height;
         canvas.getContext('2d').drawImage(image, 0, 0, width, height);
         const { data } = canvas.getContext('2d').getImageData(0, 0, width, height);
-
+	
         const converted = seikinosusume_generator(data, width, height, seikinga, seikin);
         const convertedImage = new ImageData(new Uint8ClampedArray(converted), width);
         const convertedCanvas = document.getElementById('converted-canvas');
@@ -37,7 +38,7 @@
 
       reader.readAsDataURL(event.target.files[0]);
     });
-  } 
+  });
   
 </script>
 
@@ -52,10 +53,6 @@
 <div><input bind:value={seikinga} /></div>
 
 <div><input bind:value={seikin} /></div>
-
-{#if files && files[0]}
-  <button on:click={generate(seikinga, seikin)}>Generate!</button>
-{/if}
 
 <canvas id="original-canvas" style="display: none;"></canvas>
 <canvas id="converted-canvas" style="margin-top: 20px;"></canvas>
